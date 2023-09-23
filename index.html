@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>17 timers in JS</title>
+  <style>
+    body{
+      background: black;
+    }
+    div{
+      width: 100px;
+      height: 50px;
+      border:black 2px solid;
+      display: inline-block;
+    }
+    section{
+      top: 350px;
+      left: 400px;
+      position: absolute;
+    }
+
+    section>button:nth-child(2){
+      position: relative;
+      top: 100px;
+      right: -200px ;
+    }
+
+    section>button:nth-child(1){
+      position: relative;
+      top: 100px;
+      right: -200px ;
+    }
+
+  </style>
+</head>
+<body>
+
+
+<section>
+  <div class="light"></div>
+  <div class="light"></div>
+  <div class="light"></div>
+  <div class="light"></div>
+  <div class="light"></div>
+  <div class="light"></div>
+</section>
+
+<section>
+  <button type="button">Start</button>
+  <button type="button">Stop</button>
+</section>
+
+<audio src="assest/audio/audio.mp3" id ="audio"></audio>
+<script src="assest/lib/jquery.min.js"></script>
+<script>
+
+  // const myFunction = () =>{
+  //    $("#div1").css({background:"yellow"});
+  // }
+  // setInterval(myFunction,1000);
+  var current_light=-1;
+  var current_direction="RIGHT";
+  var light_count=6;
+  var Interval_Id=null;
+  const updateLightPanel = () =>{
+    $(".light").css("background", "white");
+    if(current_direction==="RIGHT"){
+      current_light++
+      $(".light").eq(current_light).css("background", "red");
+
+      if(current_light-1>=0){
+        $(".light").eq(current_light-1).css("background", "#7C0A02");
+
+      }
+
+      if(current_light===light_count-1){
+        current_direction="LEFT";
+      }
+    }else{
+      current_light--
+      $(".light").eq(current_light).css("background", "red");
+      $(".light").eq(current_light+1).css("background", "#7C0A02");
+      if(current_light===0){
+        current_direction="RIGHT";
+      }
+    }
+
+  }
+  $("button:first-child").on("click", () =>{
+    if(Interval_Id==null){
+      Interval_Id=setInterval(updateLightPanel,100);
+      $("#audio")[0].play();
+    }
+  });
+
+  $("button:nth-child(2)").on("click", () =>{
+    clearInterval(Interval_Id);
+    Interval_Id=null;
+    $("#audio")[0].pause();
+
+  });
+
+
+  // const myFunction1= () => {
+  //   console.log("Hello");
+  // }
+  // // setTimeout(myFunction1(),50000000);
+  // setInterval(myFunction1,5000)
+</script>
+</body>
+</html>
